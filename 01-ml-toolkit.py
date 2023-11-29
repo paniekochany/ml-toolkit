@@ -5,21 +5,19 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import rbf_kernel
 
-def load_housing_data(file_name, url):
-    '''Function to automatically download decompress tarball file and read in data frame'''
 
-    dataset_directory = os.path.splitext(file_name)[0]
-    tarball_path = Path('datasets') / dataset_directory / file_name
-    if not tarball_path.is_file():
-        Path('datasets').mkdir(parents=True, exist_ok=True)
-        url = url
-        urllib.request.urlretrieve(url, tarball_path)
-        with tarfile.open(tarball_path) as file_tarball:
-            file_tarball.extractall(path = Path('datasets') / dataset_directory)
+def unzip_and_open_dataset(zip_file_path):
+    '''Extract zip file and read into pandas dataframe.'''
 
-    dataset_csv = [file for file in os.listdir(Path('datasets') / dataset_directory) if file.endswith('.csv')][0]
+    data_directory = Path('datasets') / os.path.splitext(zip_file_path)[0]
+    if not data_directory.is_dir():
+        data_directory.mkdir(parents=True)
+    with zipfile.ZipFile(zip_file_path) as zip_file:
+        zip_file.extractall(data_directory)
 
-    return pd.read_csv(Path('datasets') / dataset_directory / dataset_csv)
+    csv_file = [file for file in os.listdir(data_directory) if file.endswith('.csv')][0]
+
+    return pd.read_csv(data_directory / csv_file)
 
 
 class ClusterSimilarity(BaseEstimator, TransformerMixin):
