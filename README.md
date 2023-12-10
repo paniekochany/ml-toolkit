@@ -1,4 +1,4 @@
 # Machine Learning Toolkit 
 
-Code copied from Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems (with slight modifications).
+Useful statistical and Machine Learning functions. Some custom, some borrowed from Hands on Machine Learning by A. Geron.
 
